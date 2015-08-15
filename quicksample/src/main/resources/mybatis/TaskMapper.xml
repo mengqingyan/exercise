@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.revencoft.sample.dao.task.TaskDao" > 
+	<!-- Result Map-->
+	<resultMap type="com.revencoft.sample.entity.Task" id="TaskMap">
+		<id property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="description" column="description" />
+		<association property="user" column="user_id"
+			 resultMap="com.revencoft.sample.dao.account.UserDao.UserMap"/>
+	</resultMap>
+       
+<!-- sys_menu_btn table all fields -->
+<sql id="Base_Column_List" >
+	 id, title, description, user_id
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="basic_Where_Clause">
+	where 1=1
+<trim  suffixOverrides="," >
+	<if test="search_LIKE_title != null and search_LIKE_title != ''" >
+	    and title like  %#{search_LIKE_title}%
+	</if>
+	<if test="userId != null" >
+	    and user_id =  #{userId}
+	</if>
+</trim>
+</sql>
+
+<sql id="page_Where_Clause">
+	<include refid="basic_Where_Clause"/>
+	
+	<if test="start != null and pageSize != null" >
+	    limit #{start},#{pageSize}
+	</if>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+  insert into ss_user (login_name,name,password,salt,roles,register_date) 
+  values(#{loginName}, #{name}, #{password}, #{salt}, #{roles}, #{registerDate})
+</insert>
+
+ 
+<!-- 根据条件查询 -->
+<select id="getUserTask"  resultMap="TaskMap" parameterType="com.revencoft.sample.dao.task.TaskQueryParam">
+	select <include refid="Base_Column_List" /> 
+	 from ss_task <include refid="page_Where_Clause"></include>
+</select>
+
+<!-- 根据条件查询总数 -->
+<select id="getUserTaskCount"  resultType="int" parameterType="com.revencoft.sample.dao.task.TaskQueryParam">
+	select count(1)
+	 from ss_task <include refid="basic_Where_Clause"></include>
+</select>
+
+</mapper>   
