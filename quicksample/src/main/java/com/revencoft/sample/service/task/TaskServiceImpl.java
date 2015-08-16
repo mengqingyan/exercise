@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.revencoft.sample.dao.task.TaskDao;
 import com.revencoft.sample.dao.task.TaskQueryParam;
 import com.revencoft.sample.entity.Task;
+import com.revencoft.sample.support.CustomQueryParams;
 
 /**
  * @author mengqingyan
@@ -28,15 +29,39 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(readOnly=true)
 	public List<Task> getUserTask(Long userId, String search_LIKE_title,
 			int iDisplayStart, int iDisplayLength) {
-		
-		return taskDao.getUserTask(new TaskQueryParam(userId,
-				search_LIKE_title, iDisplayStart, iDisplayLength));
+		TaskQueryParam param = new TaskQueryParam(userId,
+				search_LIKE_title);
+		param.setStart(iDisplayStart);
+		param.setPageSize(iDisplayLength);
+		return taskDao.getUserTask(param);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public int getUserTaskCount(Long userId, String search_LIKE_title) {
-		return taskDao.getUserTaskCount(new TaskQueryParam(userId, search_LIKE_title, null, null));
+		return taskDao.getUserTaskCount(new TaskQueryParam(userId, search_LIKE_title));
+	}
+
+	@Override
+	public void save(Task task) {
+		taskDao.save(task);
+	}
+
+	@Override
+	public void deleteTaskById(int taskId) {
+		taskDao.deleteById(taskId);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Task> getUserTask(CustomQueryParams qParams) {
+		return taskDao.getUserTask2(qParams);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public int getUserTaskCount(CustomQueryParams qParams) {
+		return taskDao.getUserTaskCount2(qParams);
 	}
 
 }

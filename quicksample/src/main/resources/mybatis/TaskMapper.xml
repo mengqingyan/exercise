@@ -23,7 +23,7 @@
 	where 1=1
 <trim  suffixOverrides="," >
 	<if test="search_LIKE_title != null and search_LIKE_title != ''" >
-	    and title like  %#{search_LIKE_title}%
+	    and title like  '%${search_LIKE_title}%'
 	</if>
 	<if test="userId != null" >
 	    and user_id =  #{userId}
@@ -34,16 +34,20 @@
 <sql id="page_Where_Clause">
 	<include refid="basic_Where_Clause"/>
 	
-	<if test="start != null and pageSize != null" >
+	<if test="sortColumn != null and sortColumn != ''">
+		order by #{sortColumn} #{sSortDir_0}
+	</if>
+	
+	<if test="start != -1 and pageSize != -1" >
 	    limit #{start},#{pageSize}
 	</if>
 </sql>
    
 
 <!-- 插入记录 -->
-<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-  insert into ss_user (login_name,name,password,salt,roles,register_date) 
-  values(#{loginName}, #{name}, #{password}, #{salt}, #{roles}, #{registerDate})
+<insert id="save" parameterType="Task" useGeneratedKeys="true" keyProperty="id">
+  insert into ss_task (title, description, user_id) 
+  values(#{title}, #{description}, #{user.id})
 </insert>
 
  
@@ -58,5 +62,21 @@
 	select count(1)
 	 from ss_task <include refid="basic_Where_Clause"></include>
 </select>
+
+<!-- 根据条件查询 -->
+<select id="getUserTask2"  resultMap="TaskMap" parameterType="com.revencoft.sample.support.CustomQueryParams">
+	select <include refid="Base_Column_List" /> 
+	 from ss_task <include refid="page_Where_Clause"></include>
+</select>
+
+<!-- 根据条件查询总数 -->
+<select id="getUserTaskCount2"  resultType="int" parameterType="com.revencoft.sample.support.CustomQueryParams">
+	select count(1)
+	 from ss_task <include refid="basic_Where_Clause"></include>
+</select>
+
+<delete id="deleteById" parameterType="int">
+	delete from ss_task where id=#{taskId}
+</delete>
 
 </mapper>   

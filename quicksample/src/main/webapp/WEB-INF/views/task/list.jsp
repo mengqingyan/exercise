@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -19,12 +20,12 @@
 	
 	<div class="row">
 		<div class="span4 offset7">
-			<form class="form-search" action="#" id="form-search">
+			<form class="form-search" action="#" id="form-search" >
 				<label>名称：</label> <input type="text" name="search_LIKE_title" class="input-medium" value="${param.search_LIKE_title}"> 
 				<button type="submit" class="btn" id="search_btn">Search</button>
 		    </form>
 	    </div>
-	    <tags:sort/>
+	    
 	</div>
 
 	<table id="taskList" class="display" cellspacing="0" width="100%">
@@ -37,9 +38,11 @@
 		<tbody>
 		</tbody>
 	</table>
+	
+	<div><a class="btn" href="${ctx}/task/create">新建任务</a></div>
 
 
-	<script type="text/javascript" src="${ctx}/resources/js/task/list.js"></script>
+	<script type="text/javascript" src="${ctx}/resources/js/task/list.js?time=<%=new Date().getTime() %>"></script>
 	<script type="text/javascript"
 		src="https://cdn.datatables.net/r/dt/dt-1.10.8/datatables.min.js"></script>
 

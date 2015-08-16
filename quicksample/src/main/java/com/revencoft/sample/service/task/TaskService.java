@@ -6,6 +6,7 @@ package com.revencoft.sample.service.task;
 import java.util.List;
 
 import com.revencoft.sample.entity.Task;
+import com.revencoft.sample.support.CustomQueryParams;
 
 /**
  * @author mengqingyan
@@ -29,5 +30,13 @@ public interface TaskService {
 	 * @return
 	 */
 	int getUserTaskCount(Long userId, String search_LIKE_title);
+
+	void save(Task task);
+
+	void deleteTaskById(int taskId);
+
+	List<Task> getUserTask(CustomQueryParams qParams);
+
+	int getUserTaskCount(CustomQueryParams qParams);
 
 }

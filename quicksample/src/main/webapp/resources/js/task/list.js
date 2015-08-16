@@ -17,8 +17,21 @@ $(document).ready(function() {
         "sAjaxSource" : ctx + "/task/list?now=" + new Date().getTime() + "&" + paras,
         
         "aoColumns" : [ 
-            {"mDataProp" : "title"},
-            {"mDataProp" : "description"}
+            /*{"mDataProp" : "title"},
+            {"mDataProp" : "description"}*/
+            {
+                "mData":"title",
+                "bSortable": true,
+               
+        	} ,
+        	 {
+                "mData":"description",
+                "bSortable": false,
+                "render": function ( data, type, row ) {
+                	console.log(data)
+                	return "<a href=" + ctx + "/task/delete/" + row.id + ">删除</a>";
+                }
+        	} 
         ],
         "bAutoWidth": true, //自适应宽度
         "sPaginationType" : "full_numbers",
