@@ -38,6 +38,7 @@
 		<property name="typeAliasesPackage" value="com.revencoft.sample.entity" />
 		<!-- 显式指定Mapper文件位置 -->
 		<property name="mapperLocations" value="classpath:/mybatis/*Mapper.xml" />
+		<property name="configLocation" value="classpath:/mybatis/mybatis_config.xml"/>
 	</bean>
 	<!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

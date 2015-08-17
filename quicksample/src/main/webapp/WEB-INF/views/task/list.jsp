@@ -20,9 +20,10 @@
 	
 	<div class="row">
 		<div class="span4 offset7">
-			<form class="form-search" action="#" id="form-search" >
-				<label>名称：</label> <input type="text" name="search_LIKE_title" class="input-medium" value="${param.search_LIKE_title}"> 
-				<button type="submit" class="btn" id="search_btn">Search</button>
+			<form class="form-search" id="form-search" onsubmit="return false">
+				<label>名称：</label> <input type="text" name="search_like_title" class="input-medium" value="${param.search_LIKE_title}"> 
+				<!-- <button type="submit" class="btn" id="search_btn">Search</button> -->
+				<button class="btn" id="search_btn">Search</button>
 		    </form>
 	    </div>
 	    
@@ -32,6 +33,7 @@
 		<thead>
 			<tr>
 				<th>任务</th>
+				<th>描述</th>
 				<th>管理</th>
 			</tr>
 		</thead>

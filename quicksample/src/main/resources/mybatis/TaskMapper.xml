@@ -35,7 +35,7 @@
 	<include refid="basic_Where_Clause"/>
 	
 	<if test="sortColumn != null and sortColumn != ''">
-		order by #{sortColumn} #{sSortDir_0}
+		order by ${sortColumn} ${sSortDir_0}
 	</if>
 	
 	<if test="start != -1 and pageSize != -1" >
@@ -63,16 +63,49 @@
 	 from ss_task <include refid="basic_Where_Clause"></include>
 </select>
 
+
+<sql id="new_Basic_Where_Clause">
+	<if test="_parameter.getQconditions().size() != 0">
+		where 
+		<foreach collection="_parameter.getQconditions()" item="condition" separator=" and ">
+			<if test="condition.value != null and condition.value != ''">
+				${condition.column} ${condition.operation} 
+				<choose>
+					<when test='condition.operation.toString() == "like"'>
+						concat('%', #{condition.value}, '%')
+					</when>
+					<otherwise>
+						#{condition.value}
+					</otherwise>
+				</choose>
+			</if>
+        </foreach>
+	</if>
+</sql>
+
+<sql id="new_Page_Where_Clause">
+
+	<include refid="new_Basic_Where_Clause"></include>
+	
+	<if test="sortColumn != null and sortColumn != ''">
+		order by ${sortColumn} ${sSortDir_0}
+	</if>
+	
+	<if test="iDisplayStart != -1 and iDisplayLength != -1" >
+	    limit #{iDisplayStart},#{iDisplayLength}
+	</if>
+</sql>
+
 <!-- 根据条件查询 -->
 <select id="getUserTask2"  resultMap="TaskMap" parameterType="com.revencoft.sample.support.CustomQueryParams">
 	select <include refid="Base_Column_List" /> 
-	 from ss_task <include refid="page_Where_Clause"></include>
+	 from ss_task <include refid="new_Page_Where_Clause"></include>
 </select>
 
 <!-- 根据条件查询总数 -->
 <select id="getUserTaskCount2"  resultType="int" parameterType="com.revencoft.sample.support.CustomQueryParams">
 	select count(1)
-	 from ss_task <include refid="basic_Where_Clause"></include>
+	 from ss_task <include refid="new_Basic_Where_Clause"></include>
 </select>
 
 <delete id="deleteById" parameterType="int">

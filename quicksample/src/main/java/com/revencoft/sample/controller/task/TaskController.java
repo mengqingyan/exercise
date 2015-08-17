@@ -25,7 +25,6 @@ import com.revencoft.sample.shiro.ShiroDbRealm.ShiroUser;
 import com.revencoft.sample.support.CustomQueryParams;
 import com.revencoft.sample.support.QueryCondition;
 import com.revencoft.sample.support.QueryCondition.Operation;
-import com.revencoft.sample.support.resolver.QueryParamCombine;
 
 /**
  * @author mengqingyan
@@ -46,7 +45,8 @@ public class TaskController {
 	@RequestMapping(value="list", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> list(//@RequestParam String search_LIKE_title,
-			@QueryParamCombine CustomQueryParams qParams
+//			@QueryParamCombine 
+			CustomQueryParams qParams
 			) {
 		
 		Map<String, Object> datas = new HashMap<String, Object>();
@@ -56,7 +56,7 @@ public class TaskController {
 		qParams.setSortableColumns(sortableColumns);
 		
 		Long userId = getCurrentUserId();
-		qParams.addQueryCondition(new QueryCondition("user_id", Operation.eq, userId));
+		qParams.addQueryCondition(new QueryCondition("user_id", Operation.eq, String.valueOf(userId)));
 		
 		List<Task> taskList = taskService.getUserTask(qParams);
 		int count = taskService.getUserTaskCount(qParams);
