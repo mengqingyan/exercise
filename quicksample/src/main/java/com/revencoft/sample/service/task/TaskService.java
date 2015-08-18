@@ -3,14 +3,21 @@
  */
 package com.revencoft.sample.service.task;
 
+import com.revencoft.sample.entity.PageEntity;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.service.BaseService;
+import com.revencoft.sample.support.CustomQueryParams;
 
 /**
  * @author mengqingyan
  * @version 
  */
 public interface TaskService extends BaseService<Task> {
+
+	/**
+	 * @param qParams
+	 */
+	PageEntity<Task> getTaskPageAndCount(CustomQueryParams qParams);
 
 	/**
 	 * @param userId

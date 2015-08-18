@@ -31,6 +31,10 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
+	
+	<logger name="com.revencoft.sample.dao">
+		<level value="DEBUG" />
+	</logger>
 
 	<!-- Root Logger -->
 	<root>

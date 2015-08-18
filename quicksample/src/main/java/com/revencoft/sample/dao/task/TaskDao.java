@@ -3,6 +3,8 @@
  */
 package com.revencoft.sample.dao.task;
 
+import org.springframework.stereotype.Repository;
+
 import com.revencoft.sample.dao.BaseDao;
 import com.revencoft.sample.dao.MyBatisRepository;
 import com.revencoft.sample.entity.Task;
@@ -12,6 +14,7 @@ import com.revencoft.sample.entity.Task;
  * @version 
  */
 @MyBatisRepository
+@Repository
 public interface TaskDao extends BaseDao<Task> {
 
 	/**

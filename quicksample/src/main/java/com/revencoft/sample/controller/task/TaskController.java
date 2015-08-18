@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.revencoft.sample.entity.PageEntity;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.entity.User;
 import com.revencoft.sample.service.task.TaskService;
@@ -58,13 +59,15 @@ public class TaskController {
 		Long userId = getCurrentUserId();
 		qParams.addQueryCondition(new QueryCondition("user_id", Operation.eq, String.valueOf(userId)));
 		
-		List<Task> taskList = taskService.getEntityByQParams(qParams)/*getUserTask(qParams)*/;
-		int count = taskService.getEntityCountByQParams(qParams)/*getUserTaskCount(qParams)*/;
+//		List<Task> taskList = taskService.getEntityByQParams(qParams)/*getUserTask(qParams)*/;
+//		int count = taskService.getEntityCountByQParams(qParams)/*getUserTaskCount(qParams)*/;
+		
+		PageEntity<Task> taskPageAndCount = taskService.getTaskPageAndCount(qParams);
 		
 		datas.put("sEcho", qParams.getsEcho());
-		datas.put("iTotalRecords", count);
-		datas.put("iTotalDisplayRecords", count);
-		datas.put("aaData", taskList);
+		datas.put("iTotalRecords", taskPageAndCount.getCount());
+		datas.put("iTotalDisplayRecords", taskPageAndCount.getCount());
+		datas.put("aaData", taskPageAndCount.getEntities());
 		return datas;
 	}
 	

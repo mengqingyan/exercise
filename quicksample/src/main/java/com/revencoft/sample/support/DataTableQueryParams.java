@@ -6,8 +6,8 @@ import java.util.List;
 public class DataTableQueryParams {
 	
 	private String sEcho;//原样返回
-	private int iDisplayStart;//分页起始位置
-	private int iDisplayLength;//页面显示记录数
+	private int iDisplayStart = -1;//分页起始位置
+	private int iDisplayLength = -1;//页面显示记录数
 	private int iSortCol_0;//排序的列
 	private String sSortDir_0;//asc;desc
 	
