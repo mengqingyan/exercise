@@ -6,6 +6,11 @@ import org.apache.log4j.Logger;
 import com.revencoft.sample.exception.SqlInjectionException;
 import com.revencoft.sample.utils.SqlValidator;
 
+/**
+ * 构建where条件对象，并对加入的字段值（column）进行sql注入校验
+ * @author mengqingyan
+ * @version
+ */
 public class QueryCondition {
 	
 	private static final Logger log = Logger.getLogger(QueryCondition.class);
@@ -76,7 +81,7 @@ public class QueryCondition {
 	
 	@Override
 	public String toString() {
-		return "search_" + operation + "_" + column + "="
+		return SEARCH_PREFIX + operation + "_" + column + "="
 				+ value;
 	}
 
