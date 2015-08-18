@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.revencoft.sample.exceptions;
+package com.revencoft.sample.utils;
 
 
 /**
