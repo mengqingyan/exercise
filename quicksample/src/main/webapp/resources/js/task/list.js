@@ -36,7 +36,7 @@ var initTable = function() {
         	} ,
             {
         		"mData" : "description",
-        		"bSortable": false,
+        		"bSortable": true,
         	},
             
         	 {

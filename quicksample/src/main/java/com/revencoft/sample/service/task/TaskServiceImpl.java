@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revencoft.sample.dao.BaseDao;
 import com.revencoft.sample.dao.task.TaskDao;
 import com.revencoft.sample.dao.task.TaskQueryParam;
 import com.revencoft.sample.entity.Task;
+import com.revencoft.sample.service.BaseServiceImpl;
 import com.revencoft.sample.support.CustomQueryParams;
 
 /**
@@ -20,12 +22,12 @@ import com.revencoft.sample.support.CustomQueryParams;
  */
 @Service
 @Transactional
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl extends BaseServiceImpl<Task> implements TaskService {
 
 	@Autowired
 	private TaskDao taskDao;
 	
-	@Override
+	/*@Override
 	@Transactional(readOnly=true)
 	public List<Task> getUserTask(Long userId, String search_LIKE_title,
 			int iDisplayStart, int iDisplayLength) {
@@ -41,8 +43,8 @@ public class TaskServiceImpl implements TaskService {
 	public int getUserTaskCount(Long userId, String search_LIKE_title) {
 		return taskDao.getUserTaskCount(new TaskQueryParam(userId, search_LIKE_title));
 	}
-
-	@Override
+*/
+/*	@Override
 	public void save(Task task) {
 		taskDao.save(task);
 	}
@@ -62,6 +64,11 @@ public class TaskServiceImpl implements TaskService {
 	@Transactional(readOnly=true)
 	public int getUserTaskCount(CustomQueryParams qParams) {
 		return taskDao.getUserTaskCount2(qParams);
+	}*/
+
+	@Override
+	protected BaseDao<Task> getBaseDao() {
+		return taskDao;
 	}
 
 }

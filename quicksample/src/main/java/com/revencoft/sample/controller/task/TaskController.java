@@ -58,8 +58,8 @@ public class TaskController {
 		Long userId = getCurrentUserId();
 		qParams.addQueryCondition(new QueryCondition("user_id", Operation.eq, String.valueOf(userId)));
 		
-		List<Task> taskList = taskService.getUserTask(qParams);
-		int count = taskService.getUserTaskCount(qParams);
+		List<Task> taskList = taskService.getEntityByQParams(qParams)/*getUserTask(qParams)*/;
+		int count = taskService.getEntityCountByQParams(qParams)/*getUserTaskCount(qParams)*/;
 		
 		datas.put("sEcho", qParams.getsEcho());
 		datas.put("iTotalRecords", count);
@@ -78,14 +78,18 @@ public class TaskController {
 		Long userId = getCurrentUserId();
 		User user = new User(userId);
 		task.setUser(user);
-		taskService.save(task);
+		taskService.saveEntity(task);/*save(task)*/;
 		
 		return "redirect:/task";
 	}
 	
 	@RequestMapping(value="delete/{taskId}", method=RequestMethod.GET)
 	public String delete(@PathVariable int taskId) {
-		taskService.deleteTaskById(taskId);
+//		taskService.deleteEntityById(taskId)/*deleteTaskById(taskId)*/;
+		
+		CustomQueryParams params = new CustomQueryParams();
+		params.addQueryCondition(new QueryCondition("id", Operation.eq, String.valueOf(taskId)));
+		taskService.deleteEntityByQParams(params );
 		return "redirect:/task";
 	}
 	

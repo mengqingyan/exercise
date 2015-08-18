@@ -44,72 +44,79 @@
 </sql>
    
 
-<!-- 插入记录 -->
-<insert id="save" parameterType="Task" useGeneratedKeys="true" keyProperty="id">
-  insert into ss_task (title, description, user_id) 
-  values(#{title}, #{description}, #{user.id})
-</insert>
-
- 
 <!-- 根据条件查询 -->
+<!--  
 <select id="getUserTask"  resultMap="TaskMap" parameterType="com.revencoft.sample.dao.task.TaskQueryParam">
 	select <include refid="Base_Column_List" /> 
 	 from ss_task <include refid="page_Where_Clause"></include>
 </select>
 
-<!-- 根据条件查询总数 -->
+根据条件查询总数
 <select id="getUserTaskCount"  resultType="int" parameterType="com.revencoft.sample.dao.task.TaskQueryParam">
 	select count(1)
 	 from ss_task <include refid="basic_Where_Clause"></include>
 </select>
 
+ -->
 
-<sql id="new_Basic_Where_Clause">
-	<if test="_parameter.getQconditions().size() != 0">
-		where 
-		<foreach collection="_parameter.getQconditions()" item="condition" separator=" and ">
-			<if test="condition.value != null and condition.value != ''">
-				${condition.column} ${condition.operation} 
-				<choose>
-					<when test='condition.operation.toString() == "like"'>
-						concat('%', #{condition.value}, '%')
-					</when>
-					<otherwise>
-						#{condition.value}
-					</otherwise>
-				</choose>
-			</if>
-        </foreach>
-	</if>
-</sql>
 
-<sql id="new_Page_Where_Clause">
 
-	<include refid="new_Basic_Where_Clause"></include>
+	<!-- =======================可复用模块===================== -->
 	
-	<if test="sortColumn != null and sortColumn != ''">
-		order by ${sortColumn} ${sSortDir_0}
-	</if>
 	
-	<if test="iDisplayStart != -1 and iDisplayLength != -1" >
-	    limit #{iDisplayStart},#{iDisplayLength}
-	</if>
-</sql>
+	<sql id="new_Basic_Where_Clause">
+		<if test="_parameter.getQconditions().size() != 0">
+			where 
+			<foreach collection="_parameter.getQconditions()" item="condition" separator=" and ">
+				<if test="condition.value != null and condition.value != ''">
+					${condition.column} ${condition.operation}
+					<choose>
+						<when test='condition.operation.toString() == "like"'>
+							concat('%', #{condition.value}, '%')
+						</when>
+						<otherwise>
+							#{condition.value}
+						</otherwise>
+					</choose>
+				</if>
+	        </foreach>
+		</if>
+	</sql>
 
-<!-- 根据条件查询 -->
-<select id="getUserTask2"  resultMap="TaskMap" parameterType="com.revencoft.sample.support.CustomQueryParams">
-	select <include refid="Base_Column_List" /> 
-	 from ss_task <include refid="new_Page_Where_Clause"></include>
-</select>
-
-<!-- 根据条件查询总数 -->
-<select id="getUserTaskCount2"  resultType="int" parameterType="com.revencoft.sample.support.CustomQueryParams">
-	select count(1)
-	 from ss_task <include refid="new_Basic_Where_Clause"></include>
-</select>
-
-<delete id="deleteById" parameterType="int">
-	delete from ss_task where id=#{taskId}
-</delete>
-
+	<sql id="new_Page_Where_Clause">
+		<include refid="new_Basic_Where_Clause"></include>
+		<if test="sortColumn != null and sortColumn != ''">
+			order by ${sortColumn} ${sSortDir_0}
+		</if>
+		<if test="iDisplayStart != -1 and iDisplayLength != -1" >
+		    limit #{iDisplayStart},#{iDisplayLength}
+		</if>
+	</sql>
+	
+	
+	<delete id="deleteById" parameterType="int">
+		delete from ss_task where id=#{taskId}
+	</delete>
+	
+	<delete id="deleteByQParams" parameterType="com.revencoft.sample.support.CustomQueryParams">
+		delete from ss_task <include refid="new_Basic_Where_Clause"></include>
+	</delete>
+	
+	<!-- 根据条件查询 -->
+	<select id="queryByQParams"  resultMap="TaskMap" parameterType="com.revencoft.sample.support.CustomQueryParams">
+		select <include refid="Base_Column_List" /> 
+		 from ss_task <include refid="new_Page_Where_Clause"></include>
+	</select>
+	
+	<!-- 根据条件查询总数 -->
+	<select id="queryCountByQParams"  resultType="int" parameterType="com.revencoft.sample.support.CustomQueryParams">
+		select count(1)
+		 from ss_task <include refid="new_Basic_Where_Clause"></include>
+	</select>
+	
+	<!-- 插入记录 -->
+	<insert id="save" parameterType="Task" useGeneratedKeys="true" keyProperty="id">
+	  insert into ss_task (title, description, user_id) 
+	  values(#{title}, #{description}, #{user.id})
+	</insert>
 </mapper>   
