@@ -8,10 +8,9 @@ $(document).ready(function() {
 
 });
 
+var ctx = $("#ctx").val();
 
 var initTable = function() {
-	
-	var ctx = $("#ctx").val();
 	
 	var paras = getFormSearchParams("form-search");
 	
@@ -72,10 +71,11 @@ var getFormSearchParams = function(formId) {
 
 var getWeather = function() {
 	
-	var url = 'http://m.weather.com.cn/atad/101280101.html';
-	$.getJSON(url, function(data) {
-		alert("weather: " +  data);
-	});
+	
+	var url = ctx + "/weather?cityCode=101280101";
+	$.get(url,function(data,status){
+	    alert("Data: " + data + "\nStatus: " + status);
+	  });
 		
 }
 
