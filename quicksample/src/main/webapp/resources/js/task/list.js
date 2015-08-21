@@ -3,6 +3,8 @@ $(document).ready(function() {
 	$("#search_btn").click(function() {
 		initTable();
 	});
+	
+	getWeather();
 
 });
 
@@ -36,14 +38,14 @@ var initTable = function() {
         	} ,
             {
         		"mData" : "description",
-        		"bSortable": true,
+        		"bSortable": false,
         	},
             
         	 {
                 "mData":"operation",
                 "bSortable": false,
                 "render": function ( data, type, row ) {
-                	console.log(data)
+//                	console.log(data)
                 	return "<a href=" + ctx + "/task/delete/" + row.id + ">删除</a>";
                 }
         	} 
@@ -66,5 +68,14 @@ var getFormSearchParams = function(formId) {
 	});
 //	console.log("param: " + param);
 	return param;
+}
+
+var getWeather = function() {
+	
+	var url = 'http://m.weather.com.cn/atad/101280101.html';
+	$.getJSON(url, function(data) {
+		alert("weather: " +  data);
+	});
+		
 }
 
