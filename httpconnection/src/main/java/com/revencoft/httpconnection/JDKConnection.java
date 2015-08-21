@@ -101,6 +101,7 @@ public class JDKConnection {
 	public interface ConnectionPreProcess {
 
 		/**
+		 * 对connection预处理
 		 * @param connection
 		 * @throws Exception 
 		 */
