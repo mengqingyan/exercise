@@ -6,6 +6,7 @@ package com.revencoft.sample.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revencoft.sample.dao.BaseDao;
@@ -23,6 +24,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	@Transactional(readOnly=true)
 	public List<T> getEntityByQParams(CustomQueryParams params) {
+		checkQueryParams(params);
 		return getBaseDao().queryByQParams(params);
 	}
 	
@@ -31,7 +33,17 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	@Transactional(readOnly=true)
 	public int getEntityCountByQParams(CustomQueryParams params) {
+		checkQueryParams(params);
 		return getBaseDao().queryCountByQParams(params);
+	}
+
+
+
+	/**
+	 * @param params
+	 */
+	protected void checkQueryParams(CustomQueryParams params) {
+		Validate.notNull(params, "The CustomQueryParams must not be null");
 	}
 
 
@@ -51,6 +63,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
 	@Override
 	public void deleteEntityByQParams(CustomQueryParams params) {
+		checkQueryParams(params);
 		getBaseDao().deleteByQParams(params);
 	}
 

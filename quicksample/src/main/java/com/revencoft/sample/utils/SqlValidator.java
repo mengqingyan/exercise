@@ -7,15 +7,17 @@ package com.revencoft.sample.utils;
  * @author mengqingyan
  * @version 
  */
+@Deprecated
 public abstract class SqlValidator {
 	
-	private static final String badStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
-            "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|create|drop|" +
-            "table|from|grant|use|group_concat|column_name|" +
-            "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|" +
-            "chr|mid|master|truncate|char|declare|or|;|-|--|+|,|like|//|/|%|#";//过滤掉的sql关键字
+	private static final String badStr = "'|and |exec |execute |insert |select |delete |update |count |" +
+            "char |declare |sitename|net user|xp_cmdshell|;|or |-|+|,|like |create |drop |" +
+            "table |from |grant |use |group_concat|column_name|" +
+            "information_schema.columns|table_schema|union |where |order |by |count|*|" +
+            "chr|mid|master|truncate |;|-|--|+|,|//|/|%|#|=";//过滤掉的sql关键字
 	
 	private static final String[] badStrs = badStr.split("\\|");
+	
 	
 	/**
 	 * 效验sql

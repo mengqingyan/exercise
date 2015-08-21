@@ -44,10 +44,16 @@
 </insert>
 
  
-<!-- 根据id查询 -->
-<select id="findUserByLoginName"  resultMap="UserMap" parameterType="string">
+<!-- 根据loginName查询 -->
+<select id="findUserByLoginName"  resultMap="UserMap" parameterType="string" >
 	select <include refid="Base_Column_List" /> 
 	 from ss_user where login_name = #{loginName}
+</select>
+
+<!-- 根据id查询 -->
+<select id="findUserById"  resultMap="UserMap" parameterType="int">
+	select <include refid="Base_Column_List" /> 
+	 from ss_user where id = #{id}
 </select>
 
 </mapper>   

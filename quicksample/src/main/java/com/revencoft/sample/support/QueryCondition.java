@@ -18,13 +18,18 @@ public class QueryCondition {
 	public static final String SEARCH_PREFIX = "search_";
 	private static final String SEPERATOR = "_";
 	
-	private final String column;
-	private final Operation operation;
+	private String column;
+	private Operation operation;
 	
-	private final String value;
+	private String value;
 
 	public QueryCondition(String column, Operation operation, String value) {
 		super();
+//		if(!SqlValidator.validateSql(column)) {
+//			String message = String.format("column[%s] 字段有sql注入风险！", column);
+//			log.error(message);
+//			throw new SqlInjectionException(message);
+//		}
 		this.column = column;
 		this.operation = operation;
 		this.value = value;
@@ -44,16 +49,14 @@ public class QueryCondition {
 
 		String operation = StringUtils.substringBefore(condStr, SEPERATOR);
 		
-		String column = StringUtils.substringAfter(condStr, SEPERATOR);
-		
-		if(!SqlValidator.validateSql(column)) {
-			String message = String.format("column[%s] 字段有sql注入风险！", column);
-			log.error(message);
-			throw new SqlInjectionException(message);
-		}
+		String column = extractColumn(condStr);
 		
 		return new QueryCondition(column,
 				Operation.valueOf(operation), value);
+	}
+	
+	public static String extractColumn(String condStr) {
+		return StringUtils.substringAfterLast(condStr, SEPERATOR);
 	}
 	
 	public static QueryCondition buildCondition(String conditionQueryString) {
@@ -79,6 +82,21 @@ public class QueryCondition {
 	
 	
 	
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+
+	public void setColumn(String column) {
+		this.column = column;
+	}
+
+
+	public void setOperation(Operation operation) {
+		this.operation = operation;
+	}
+
+
 	@Override
 	public String toString() {
 		return SEARCH_PREFIX + operation + "_" + column + "="
@@ -108,5 +126,45 @@ public class QueryCondition {
 				return operation_name;
 			}
 	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((column == null) ? 0 : column.hashCode());
+		result = prime * result
+				+ ((operation == null) ? 0 : operation.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QueryCondition other = (QueryCondition) obj;
+		if (column == null) {
+			if (other.column != null)
+				return false;
+		} else if (!column.equals(other.column))
+			return false;
+		if (operation != other.operation)
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
+	
+	
 	
 }

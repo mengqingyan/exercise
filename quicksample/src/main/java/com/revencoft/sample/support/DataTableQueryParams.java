@@ -2,7 +2,11 @@ package com.revencoft.sample.support;
 
 import java.util.List;
 
-
+/**
+ * 封装databable分页相关参数
+ * @author mengqingyan
+ * @version
+ */
 public class DataTableQueryParams {
 	
 	private String sEcho;//原样返回

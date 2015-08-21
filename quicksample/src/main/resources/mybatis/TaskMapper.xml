@@ -8,8 +8,11 @@
 		<id property="id" column="id" />
 		<result property="title" column="title" />
 		<result property="description" column="description" />
-		<association property="user" column="user_id"
-			 resultMap="com.revencoft.sample.dao.account.UserDao.UserMap"/>
+		<association property="user" column="user_id" columnPrefix="user_"
+			resultMap="com.revencoft.sample.dao.account.UserDao.UserMap"
+			/>
+			<!-- resultMap="com.revencoft.sample.dao.account.UserDao.UserMap" -->
+			<!-- select="com.revencoft.sample.dao.account.UserDao.findUserById" -->
 	</resultMap>
        
 <!-- sys_menu_btn table all fields -->
@@ -65,7 +68,7 @@
 	
 	
 	<sql id="new_Basic_Where_Clause">
-		<if test="_parameter.getQconditions().size() != 0">
+		<if test="_parameter != null and _parameter.getQconditions().size() != 0">
 			where 
 			<foreach collection="_parameter.getQconditions()" item="condition" separator=" and ">
 				<if test="condition.value != null and condition.value != ''">

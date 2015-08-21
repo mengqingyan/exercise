@@ -3,8 +3,6 @@
  */
 package com.revencoft.sample.dao.account;
 
-import org.springframework.stereotype.Repository;
-
 import com.revencoft.sample.dao.MyBatisRepository;
 import com.revencoft.sample.entity.User;
 
@@ -14,7 +12,6 @@ import com.revencoft.sample.entity.User;
  */
 
 @MyBatisRepository
-@Repository
 public interface UserDao {
 
 	/**
@@ -24,5 +21,7 @@ public interface UserDao {
 	User findUserByLoginName(String loginName);
 	
 	void insert(User user);
+	
+	User findUserById(int id);
 
 }

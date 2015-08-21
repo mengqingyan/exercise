@@ -45,10 +45,7 @@ public class TaskController {
 	
 	@RequestMapping(value="list", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> list(//@RequestParam String search_LIKE_title,
-//			@QueryParamCombine 
-			CustomQueryParams qParams
-			) {
+	public Map<String, Object> list(@Valid CustomQueryParams qParams) {
 		
 		Map<String, Object> datas = new HashMap<String, Object>();
 		
@@ -58,9 +55,6 @@ public class TaskController {
 		
 		Long userId = getCurrentUserId();
 		qParams.addQueryCondition(new QueryCondition("user_id", Operation.eq, String.valueOf(userId)));
-		
-//		List<Task> taskList = taskService.getEntityByQParams(qParams)/*getUserTask(qParams)*/;
-//		int count = taskService.getEntityCountByQParams(qParams)/*getUserTaskCount(qParams)*/;
 		
 		PageEntity<Task> taskPageAndCount = taskService.getTaskPageAndCount(qParams);
 		

@@ -15,14 +15,16 @@ import com.revencoft.sample.support.CustomQueryParams;
 public interface BaseService<T> {
 
 	/**
-	 * 根据params获取实体类
+	 * 根据params获取实体类;
+	 * 若不拼接查询条件，请传入new CustomQueryParams()
 	 * @param params
 	 * @return
 	 */
 	List<T> getEntityByQParams(CustomQueryParams params);
 	
 	/**
-	 * 根据params 获取实体数量
+	 * 根据params 获取实体数量;
+	 * 若不拼接查询条件，请传入new CustomQueryParams()
 	 * @param params
 	 * @return
 	 */
@@ -33,5 +35,10 @@ public interface BaseService<T> {
 	
 	void deleteEntityById(Serializable id);
 	
+	/**
+	 * 根据params 删除实体
+	 * 若不拼接查询条件，请传入new CustomQueryParams()
+	 * @param params
+	 */
 	void deleteEntityByQParams(CustomQueryParams params);
 }
