@@ -25,8 +25,11 @@
 				<!-- <button type="submit" class="btn" id="search_btn">Search</button> -->
 				<button class="btn" id="search_btn">Search</button>
 		    </form>
+		    
 	    </div>
-	    
+	    <div class="">
+	    	<button class="btn pull-right" id="weather_btn">Weather</button>
+	    </div>
 	</div>
 
 	<table id="taskList" class="display" cellspacing="0" width="100%">
@@ -40,8 +43,11 @@
 		<tbody>
 		</tbody>
 	</table>
-	
 	<div><a class="btn" href="${ctx}/task/create">新建任务</a></div>
+	<div id="container" style="min-width:700px;height:400px"></div>
+
+	<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
 
 
 	<script type="text/javascript" src="${ctx}/resources/js/task/list.js?time=<%=new Date().getTime() %>"></script>

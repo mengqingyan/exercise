@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.revencoft.sample.entity;
+package com.revencoft.sample.entity.weather;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,12 +14,12 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
+ * 中国天气网数据VO
  * @author mengqingyan
  * @version 
  */
-public class Weather {
+public class ChinaWeather implements Weather{
 
-	
 
 	private WeatherInfo weatherinfo;
 	
@@ -30,14 +30,43 @@ public class Weather {
 	public void setWeatherinfo(WeatherInfo weatherinfo) {
 		this.weatherinfo = weatherinfo;
 	}
+	
+	@Override
+	public Map<String, Object> getFutureTempList() {
+		
+		WeatherInfo wInfo = getWeatherinfo();
+		
+		Map<String, Object> temps = new HashMap<String, Object>();
+		List<Object> maxTemps = new ArrayList<Object>();
+		List<Object> minTemps = new ArrayList<Object>();
+		
+		maxTemps.add(StringUtils.substringBefore(wInfo.temp1, WeatherInfo.TEMP_SEP));
+		minTemps.add(StringUtils.substringAfter(wInfo.temp1, WeatherInfo.TEMP_SEP));
+		
+		maxTemps.add(StringUtils.substringBefore(wInfo.temp2, WeatherInfo.TEMP_SEP));
+		minTemps.add(StringUtils.substringAfter(wInfo.temp2, WeatherInfo.TEMP_SEP));
+		
+		maxTemps.add(StringUtils.substringBefore(wInfo.temp3, WeatherInfo.TEMP_SEP));
+		minTemps.add(StringUtils.substringAfter(wInfo.temp3, WeatherInfo.TEMP_SEP));
+		
+		maxTemps.add(StringUtils.substringBefore(wInfo.temp4, WeatherInfo.TEMP_SEP));
+		minTemps.add(StringUtils.substringAfter(wInfo.temp4, WeatherInfo.TEMP_SEP));
+		
+		maxTemps.add(StringUtils.substringBefore(wInfo.temp5, WeatherInfo.TEMP_SEP));
+		minTemps.add(StringUtils.substringAfter(wInfo.temp5, WeatherInfo.TEMP_SEP));
+		
+		maxTemps.add(StringUtils.substringBefore(wInfo.temp6, WeatherInfo.TEMP_SEP));
+		minTemps.add(StringUtils.substringAfter(wInfo.temp6, WeatherInfo.TEMP_SEP));
+		
+		temps.put(HIGHT_TEMPS, maxTemps);
+		temps.put(LOW_TEMPS, maxTemps);
+		
+		return temps;
+	}
 
 	public static final class WeatherInfo {
 		
 		private static final String TEMP_SEP = "~";
-
-		private static final String HIGHT_TEMPS = "high_temps";
-
-		private static final String LOW_TEMPS = "low_temps";
 		
 		private String city;//zh_cn
 		private String city_en;//en_us
@@ -254,35 +283,6 @@ public class Weather {
 		}
 		public void setImg12(String img12) {
 			this.img12 = img12;
-		}
-		
-		public Map<String, List<String>> getTempListOf6() {
-			Map<String, List<String>> temps = new HashMap<String, List<String>>();
-			List<String> maxTemps = new ArrayList<String>();
-			List<String> minTemps = new ArrayList<String>();
-			
-			maxTemps.add(StringUtils.substringBefore(temp1, TEMP_SEP));
-			minTemps.add(StringUtils.substringAfter(temp1, TEMP_SEP));
-			
-			minTemps.add(StringUtils.substringAfter(temp2, TEMP_SEP));
-			minTemps.add(StringUtils.substringAfter(temp2, TEMP_SEP));
-			
-			maxTemps.add(StringUtils.substringBefore(temp3, TEMP_SEP));
-			minTemps.add(StringUtils.substringAfter(temp3, TEMP_SEP));
-			
-			minTemps.add(StringUtils.substringAfter(temp4, TEMP_SEP));
-			minTemps.add(StringUtils.substringAfter(temp4, TEMP_SEP));
-			
-			maxTemps.add(StringUtils.substringBefore(temp5, TEMP_SEP));
-			minTemps.add(StringUtils.substringAfter(temp5, TEMP_SEP));
-			
-			minTemps.add(StringUtils.substringAfter(temp6, TEMP_SEP));
-			minTemps.add(StringUtils.substringAfter(temp6, TEMP_SEP));
-			
-			temps.put(HIGHT_TEMPS, maxTemps);
-			temps.put(LOW_TEMPS, maxTemps);
-			
-			return temps;
 		}
 		
 	}
