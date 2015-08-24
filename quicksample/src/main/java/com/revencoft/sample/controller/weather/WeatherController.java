@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.revencoft.httpconnection.JDKConnection;
 import com.revencoft.httpconnection.JDKConnection.ActionWithInputStream;
 import com.revencoft.httpconnection.JDKConnection.ConnectionPreProcess;
-import com.revencoft.sample.entity.Weather;
-import com.revencoft.sample.entity.Weather.WeatherInfo;
+import com.revencoft.sample.entity.weather.K780Weather;
+import com.revencoft.sample.entity.weather.Weather;
 import com.revencoft.sample.utils.JsonMapper;
 
 /**
@@ -31,7 +31,8 @@ import com.revencoft.sample.utils.JsonMapper;
 @RequestMapping("/weather")
 public class WeatherController {
 	
-	private static final String WEATHER_URL = "http://m.weather.com.cn/atad/%s.html";
+//	private static final String WEATHER_URL = "http://m.weather.com.cn/atad/%s.html";
+	private static final String WEATHER_URL = "http://api.k780.com:88/?app=weather.future&weaid=%s&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
 	
 	
 	private ConnectionPreProcess preConnect;
@@ -40,17 +41,16 @@ public class WeatherController {
 	
 	private JsonMapper mapper = JsonMapper.nonEmptyMapper();
 	
+
 	@RequestMapping
 	@ResponseBody
-	public Map<String, List<String>> getWeahter(String cityCode) {
+	public Map<String, Object> getWeahter(String cityCode) {
 
 		final String url = String.format(WEATHER_URL, cityCode);
 
-		Map<String, List<String>> resultMap = null;
-		
 		try {
 			String result = JDKConnection.openUrl(url, preConnect, action);
-			return getWeatherMap(result);
+			return getWeatherMap(result, K780Weather.class);
 		} catch (Exception e) {
 			return null;
 		}
@@ -58,12 +58,12 @@ public class WeatherController {
 	
 	/**
 	 * @param result
+	 * @param weatherClazz
 	 * @return
 	 */
-	private Map<String, List<String>> getWeatherMap(String result) {
-		Weather weather = mapper.fromJson(result, Weather.class);
-		WeatherInfo weatherinfo = weather.getWeatherinfo();
-		return weatherinfo.getTempListOf6();
+	private Map<String, Object> getWeatherMap(String result, Class<?> weatherClazz) {
+		Weather weather = (Weather) mapper.fromJson(result, weatherClazz);
+		return weather.getFutureTempList();
 	}
 
 	@PostConstruct

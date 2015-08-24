@@ -4,8 +4,9 @@ $(document).ready(function() {
 		initTable();
 	});
 	
-	getWeather();
-
+	$("#weather_btn").click(function() {
+		getWeather();
+	});
 });
 
 var ctx = $("#ctx").val();
@@ -72,10 +73,71 @@ var getFormSearchParams = function(formId) {
 var getWeather = function() {
 	
 	
-	var url = ctx + "/weather?cityCode=101280101";
+	var url = ctx + "/weather.json?cityCode=101280101";
+	
 	$.get(url,function(data,status){
-	    alert("Data: " + data + "\nStatus: " + status);
+//	    alert("Data.high_temps: " + data.high_temps + "\nData.low_temps: " + data.low_temps);
+		drawWeatherInfo(data);
 	  });
-		
+}
+
+var drawWeatherInfo = function(data) {
+	 $('#container').highcharts({
+	        title: {
+	            text: 'Future Temperature',
+	            x: -20 //center
+	        },
+	        subtitle: {
+	            text: 'Source: api.k780.com',
+	            x: -20
+	        },
+	        xAxis: {
+	            categories: data.dates
+	        },
+	        yAxis: {
+	            title: {
+	                text: 'Temperature (°C)'
+	            },
+	            plotLines: [{
+	                value: 0,
+	                width: 1,
+	                color: '#808080'
+	            }]
+	        },
+//	        tooltip: {
+//	            valueSuffix: '°C'
+//	        },
+	        tooltip: {
+	            enabled: true,
+//	            formatter: function() {
+//	                return '<b>'+ this.series.name +'</b><br/>'+this.x +': '+ this.y +'°C';
+//	            },
+	            useHTML: true,
+	            headerFormat: '<small><img src="' + data['eval("{point.key}")'] + '"></small><br/>',
+	            valueSuffix: ' ℃',
+	            shared: true
+	        },
+	        legend: {
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'middle',
+	            borderWidth: 0
+	        },
+	        plotOptions: {
+	            line: {
+	                dataLabels: {
+	                    enabled: true
+	                },
+	                enableMouseTracking: true
+	            }
+	        },
+	        series: [{
+	            name: 'Daily high temp',
+	            data: data.high_temps
+	        }, {
+	            name: 'Daily low temp',
+	            data: data.low_temps
+	        }]
+	    });
 }
 
