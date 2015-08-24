@@ -101,18 +101,18 @@
 		delete from ss_task where id=#{taskId}
 	</delete>
 	
-	<delete id="deleteByQParams" parameterType="com.revencoft.sample.support.CustomQueryParams">
+	<delete id="deleteByQParams" parameterType="com.revencoft.sample.support.query.CustomQueryParams">
 		delete from ss_task <include refid="new_Basic_Where_Clause"></include>
 	</delete>
 	
 	<!-- 根据条件查询 -->
-	<select id="queryByQParams"  resultMap="TaskMap" parameterType="com.revencoft.sample.support.CustomQueryParams">
+	<select id="queryByQParams"  resultMap="TaskMap" parameterType="com.revencoft.sample.support.query.CustomQueryParams">
 		select <include refid="Base_Column_List" /> 
 		 from ss_task <include refid="new_Page_Where_Clause"></include>
 	</select>
 	
 	<!-- 根据条件查询总数 -->
-	<select id="queryCountByQParams"  resultType="int" parameterType="com.revencoft.sample.support.CustomQueryParams">
+	<select id="queryCountByQParams"  resultType="int" parameterType="com.revencoft.sample.support.query.CustomQueryParams">
 		select count(1)
 		 from ss_task <include refid="new_Basic_Where_Clause"></include>
 	</select>

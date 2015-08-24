@@ -11,7 +11,7 @@ import org.springframework.format.Formatter;
 import org.springframework.format.Parser;
 import org.springframework.format.Printer;
 
-import com.revencoft.sample.support.QueryCondition;
+import com.revencoft.sample.support.query.QueryCondition;
 
 public class QueryConvertAnnotationFormatterFactory implements
 		AnnotationFormatterFactory<QueryConvert> {

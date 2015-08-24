@@ -1,4 +1,4 @@
-package com.revencoft.sample.support;
+package com.revencoft.sample.support.query;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;

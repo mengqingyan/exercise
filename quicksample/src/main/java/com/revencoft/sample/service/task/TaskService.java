@@ -6,7 +6,7 @@ package com.revencoft.sample.service.task;
 import com.revencoft.sample.entity.PageEntity;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.service.BaseService;
-import com.revencoft.sample.support.CustomQueryParams;
+import com.revencoft.sample.support.query.CustomQueryParams;
 
 /**
  * @author mengqingyan

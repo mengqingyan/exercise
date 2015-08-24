@@ -1,4 +1,4 @@
-package com.revencoft.sample.support;
+package com.revencoft.sample.support.query;
 
 import java.util.List;
 
@@ -60,4 +60,53 @@ public class DataTableQueryParams {
 		}
 		return null;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + iDisplayLength;
+		result = prime * result + iDisplayStart;
+		result = prime * result + iSortCol_0;
+		result = prime * result + ((sEcho == null) ? 0 : sEcho.hashCode());
+		result = prime * result
+				+ ((sSortDir_0 == null) ? 0 : sSortDir_0.hashCode());
+		result = prime * result
+				+ ((sortableColumns == null) ? 0 : sortableColumns.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DataTableQueryParams other = (DataTableQueryParams) obj;
+		if (iDisplayLength != other.iDisplayLength)
+			return false;
+		if (iDisplayStart != other.iDisplayStart)
+			return false;
+		if (iSortCol_0 != other.iSortCol_0)
+			return false;
+		if (sEcho == null) {
+			if (other.sEcho != null)
+				return false;
+		} else if (!sEcho.equals(other.sEcho))
+			return false;
+		if (sSortDir_0 == null) {
+			if (other.sSortDir_0 != null)
+				return false;
+		} else if (!sSortDir_0.equals(other.sSortDir_0))
+			return false;
+		if (sortableColumns == null) {
+			if (other.sortableColumns != null)
+				return false;
+		} else if (!sortableColumns.equals(other.sortableColumns))
+			return false;
+		return true;
+	}
+	
+	
 }

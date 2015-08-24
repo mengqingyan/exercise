@@ -14,9 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.revencoft.sample.support.CustomQueryParams;
-import com.revencoft.sample.support.QueryCondition;
 import com.revencoft.sample.support.dbprop.DbPropertiesService;
+import com.revencoft.sample.support.query.CustomQueryParams;
+import com.revencoft.sample.support.query.QueryCondition;
 
 /**
  * 该类是单例;<br/>

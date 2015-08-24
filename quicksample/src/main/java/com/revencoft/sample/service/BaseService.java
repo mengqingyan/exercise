@@ -6,7 +6,7 @@ package com.revencoft.sample.service;
 import java.io.Serializable;
 import java.util.List;
 
-import com.revencoft.sample.support.CustomQueryParams;
+import com.revencoft.sample.support.query.CustomQueryParams;
 
 /**
  * @author mengqingyan

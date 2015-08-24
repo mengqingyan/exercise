@@ -32,6 +32,10 @@
 		<level value="info" />
 	</logger>
 	
+	<logger name="org.springframework.cache">
+		<level value="debug" />
+	</logger>
+	
 	
 	<!-- mybatis debug -->
 	
@@ -51,7 +55,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="INFO" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	

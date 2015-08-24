@@ -7,10 +7,11 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revencoft.sample.dao.BaseDao;
-import com.revencoft.sample.support.CustomQueryParams;
+import com.revencoft.sample.support.query.CustomQueryParams;
 
 /**
  * @author mengqingyan
@@ -19,7 +20,7 @@ import com.revencoft.sample.support.CustomQueryParams;
 @Transactional
 public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
-	
+	protected final Logger log = Logger.getLogger(getClass());
 	
 	@Override
 	@Transactional(readOnly=true)

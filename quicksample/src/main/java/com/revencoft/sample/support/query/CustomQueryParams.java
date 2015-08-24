@@ -1,4 +1,4 @@
-package com.revencoft.sample.support;
+package com.revencoft.sample.support.query;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.revencoft.sample.support.ControllerParamPostProcess;
 import com.revencoft.sample.support.formatter.QueryConvert;
 import com.revencoft.sample.support.validation.QParamCheck;
 
@@ -20,7 +21,7 @@ import com.revencoft.sample.support.validation.QParamCheck;
  * @see com.revencoft.sample.service.BaseService#getEntityByQParams(CustomQueryParams)
  * @see com.revencoft.sample.service.BaseService#getEntityCountByQParams(CustomQueryParams)
  */
-public class CustomQueryParams extends DataTableQueryParams {
+public class CustomQueryParams extends DataTableQueryParams implements ControllerParamPostProcess{
 
 	
 	@QueryConvert
@@ -32,8 +33,6 @@ public class CustomQueryParams extends DataTableQueryParams {
 	@QParamCheck
 	private Map<String, String> searchParams;
 	
-	private boolean isConverted = false;
-
 	public void addQueryCondition(QueryCondition condition) {
 		if (qconditions == null) {
 			qconditions = new ArrayList<QueryCondition>();
@@ -73,25 +72,9 @@ public class CustomQueryParams extends DataTableQueryParams {
 	 * @return 查询条件集合，若无，则返回空集合
 	 */
 	public List<QueryCondition> getQconditions() {
-		
-		if(isConverted) {
-			return qconditions;
+		if(qconditions == null) {
+			return Collections.emptyList();
 		}
-		
-		if (searchParams == null || searchParams.isEmpty()) {
-			if(qconditions == null) {
-				return Collections.emptyList();
-			} else {
-				return qconditions;
-			}
-		}
-		Set<Entry<String, String>> paramsSet = searchParams.entrySet();
-		for (Iterator<Entry<String, String>> iterator = paramsSet.iterator(); iterator
-				.hasNext();) {
-			Entry<String, String> entry = iterator.next();
-			addQueryCondition(entry.getKey(), entry.getValue());
-		}
-		isConverted = true;
 		return qconditions;
 	}
 
@@ -101,6 +84,46 @@ public class CustomQueryParams extends DataTableQueryParams {
 
 	public void setSearchParams(Map<String, String> searchParams) {
 		this.searchParams = searchParams;
+	}
+
+	@Override
+	public void postProcessParam() {
+		
+		if (searchParams == null || searchParams.isEmpty()) {
+			return;
+		}
+		Set<Entry<String, String>> paramsSet = searchParams.entrySet();
+		for (Iterator<Entry<String, String>> iterator = paramsSet.iterator(); iterator
+				.hasNext();) {
+			Entry<String, String> entry = iterator.next();
+			addQueryCondition(entry.getKey(), entry.getValue());
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((qconditions == null) ? 0 : qconditions.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CustomQueryParams other = (CustomQueryParams) obj;
+		if (qconditions == null) {
+			if (other.qconditions != null)
+				return false;
+		} else if (!qconditions.equals(other.qconditions))
+			return false;
+		return true;
 	}
 	
 	

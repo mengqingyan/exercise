@@ -70,11 +70,17 @@ var getFormSearchParams = function(formId) {
 	return param;
 }
 
+var showTaskContent = function() {
+	$('#weather').hide();
+	$('#taskcontent').show();
+}
+
 var getWeather = function() {
 	
 	
 	var url = ctx + "/weather.json?cityCode=101280101";
-	
+	$('#weather').show();
+	$('#taskcontent').hide();
 	$.get(url,function(data,status){
 //	    alert("Data.high_temps: " + data.high_temps + "\nData.low_temps: " + data.low_temps);
 		drawWeatherInfo(data);
@@ -113,7 +119,7 @@ var drawWeatherInfo = function(data) {
 //	                return '<b>'+ this.series.name +'</b><br/>'+this.x +': '+ this.y +'°C';
 //	            },
 	            useHTML: true,
-	            headerFormat: '<small><img src="' + data['eval("{point.key}")'] + '"></small><br/>',
+	            headerFormat: '<small>{point.key}</small><br/>',
 	            valueSuffix: ' ℃',
 	            shared: true
 	        },

@@ -6,6 +6,8 @@ package com.revencoft.sample.service.task;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +16,14 @@ import com.revencoft.sample.dao.task.TaskDao;
 import com.revencoft.sample.entity.PageEntity;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.service.BaseServiceImpl;
-import com.revencoft.sample.support.CustomQueryParams;
+import com.revencoft.sample.support.query.CustomQueryParams;
 
 /**
  * @author mengqingyan
  * @version 
  */
 @Service
+@CacheConfig(cacheNames="data")
 @Transactional
 public class TaskServiceImpl extends BaseServiceImpl<Task> implements TaskService {
 
@@ -72,8 +75,10 @@ public class TaskServiceImpl extends BaseServiceImpl<Task> implements TaskServic
 	}
 
 	@Override
+//	@Cacheable(key="'param'")
 	@Transactional(readOnly=true)
 	public PageEntity<Task> getTaskPageAndCount(CustomQueryParams qParams) {
+		log.info("begin getting task page and count...");
 		List<Task> tasks = getEntityByQParams(qParams);
 		int taskCount = getEntityCountByQParams(qParams);
 		return new PageEntity<Task>(taskCount, tasks);
