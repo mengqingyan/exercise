@@ -26,6 +26,7 @@ import com.revencoft.basic_access.interceptor.RequestMethodHandlerInterceptor;
 
 
 /**
+ * 防重复提交
  * @author mqy
  * @version 1.2
  */
@@ -35,8 +36,6 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 	
 	private String invalidTokenUrl = "/error/tokenerror.do";
 	
-	public static final String VIEW_RESOLVER_BEAN_NAME = "viewResolver";
-
 	private static final String SESSION_MODE_VIEW = "sessionMV";
 	
 	private static final Map<HttpSessionHolder, CountDownLatch> latchCache = new ConcurrentHashMap<HttpSessionHolder, CountDownLatch>();
@@ -53,22 +52,14 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 		HttpSession session = request.getSession(true);
 		// 以session为锁，其他用户的线程可以同时操作session
 		// 其他线程在此阻塞，当释放锁时，其他线程不会调用ProcessInvalidTokenLock处理视图
-		log.debug(Thread.currentThread().getName()
-				+ " is waiting for session Lock...");
 		synchronized (session) {
-			log.debug(Thread.currentThread().getName()
-					+ ": get session Lock...");
 			isValid = TokenUtil.validToken(request);
 			if (!isValid) {
 				log.debug("token is invalid!");
 				CountDownLatch latch = this.getInvalidTokenLock(
 						session, true);
 				if (latch != null) {
-					log.debug(Thread.currentThread().getName()
-							+ ":tokenLatch is waiting...");
 					latch.await();
-					log.debug(Thread.currentThread().getName()
-							+ ":tokenLatch begin Processing.");
 					processInvalidToken(request, response);
 				} else {
 					log.debug("postHandle(method) has been executed,render the view directly.");
@@ -157,7 +148,6 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 				releaseInvalidTokenLatchWithSession(session);
 			}
 		} else {
-			log.debug("begin releaseInvalidSessionWithTokenLock");
 			releaseInvalidSessionWithTokenLatch();
 		}
 		

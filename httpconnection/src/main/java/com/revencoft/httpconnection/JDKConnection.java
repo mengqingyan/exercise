@@ -81,7 +81,7 @@ public class JDKConnection {
 			
 			@Override
 			public void process(HttpURLConnection connection) throws Exception {
-				connection.setReadTimeout(timeout);
+				connection.setReadTimeout(timeout * 1000);
 			}
 		};
 		return openUrl(url, preConnect , action);

@@ -19,7 +19,6 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/task/create"/>
 			<beans:bean class="com.revencoft.basic_access.token.LatchTokenInterceptor">
-				<beans:property name="allowedRequestMethods" value="POST"/>
 				<beans:property name="invalidTokenUrl" value="/error/tokenerror"/>
 			</beans:bean>
 		</mvc:interceptor>

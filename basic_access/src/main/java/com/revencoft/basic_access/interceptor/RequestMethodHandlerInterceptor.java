@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.revencoft.basic_access.utils.CollectionUtil;
 
 /**
+ * 默认只拦截POST请求
  * @author mengqingyan
  * @version 
  */
@@ -82,7 +83,6 @@ public abstract class RequestMethodHandlerInterceptor implements HandlerIntercep
 	public void afterPropertiesSet() throws Exception {
 		if(allowedRequestMethods == null) {
 			allowedRequestMethods = new HashSet<String>();
-			allowedRequestMethods.add("GET");
 			allowedRequestMethods.add("POST");
 		}
 	}
