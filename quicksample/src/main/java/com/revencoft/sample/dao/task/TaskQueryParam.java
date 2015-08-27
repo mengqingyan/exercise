@@ -3,7 +3,8 @@
  */
 package com.revencoft.sample.dao.task;
 
-import com.revencoft.sample.support.query.DataTableQueryParams;
+import com.revencoft.basic_access.param.DataTableQueryParams;
+
 
 public class TaskQueryParam extends DataTableQueryParams{
 	

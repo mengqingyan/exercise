@@ -3,20 +3,18 @@
  */
 package com.revencoft.sample.service;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.revencoft.sample.SpringContextTestCase;
+import com.revencoft.basic_access.param.CustomQueryParams;
+import com.revencoft.basic_access.param.QueryCondition;
+import com.revencoft.basic_access.param.QueryCondition.Operation;
+import com.revencoft.basic_access.test.SpringContextTestCase;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.entity.User;
 import com.revencoft.sample.service.account.AccountService;
 import com.revencoft.sample.service.task.TaskService;
-import com.revencoft.sample.support.query.CustomQueryParams;
-import com.revencoft.sample.support.query.QueryCondition;
-import com.revencoft.sample.support.query.QueryCondition.Operation;
 
 /**
  * @author mengqingyan

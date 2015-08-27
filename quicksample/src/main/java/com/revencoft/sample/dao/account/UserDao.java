@@ -3,7 +3,7 @@
  */
 package com.revencoft.sample.dao.account;
 
-import com.revencoft.sample.dao.MyBatisRepository;
+import com.revencoft.basic_access.dao.MyBatisRepository;
 import com.revencoft.sample.entity.User;
 
 /**

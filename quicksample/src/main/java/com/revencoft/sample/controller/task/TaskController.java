@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.revencoft.basic_access.param.CustomQueryParams;
+import com.revencoft.basic_access.param.QueryCondition;
+import com.revencoft.basic_access.param.QueryCondition.Operation;
+import com.revencoft.basic_access.resolver.QueryParamCombine;
 import com.revencoft.sample.entity.PageEntity;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.entity.User;
 import com.revencoft.sample.service.task.TaskService;
 import com.revencoft.sample.shiro.ShiroDbRealm.ShiroUser;
-import com.revencoft.sample.support.query.CustomQueryParams;
-import com.revencoft.sample.support.query.QueryCondition;
-import com.revencoft.sample.support.query.QueryCondition.Operation;
-import com.revencoft.sample.support.resolver.QueryParamCombine;
 
 /**
  * @author mengqingyan

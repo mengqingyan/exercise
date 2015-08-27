@@ -18,7 +18,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
-	<context:component-scan base-package="com.revencoft.sample">
+	<context:component-scan base-package="com.revencoft.sample,com.revencoft.basic_access">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
@@ -42,13 +42,13 @@
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
 		<property name="typeAliasesPackage" value="com.revencoft.sample.entity" />
 		<!-- 显式指定Mapper文件位置 -->
-		<property name="mapperLocations" value="classpath:/mybatis/*Mapper.xml" />
+		<property name="mapperLocations" value="classpath*:/mybatis/*Mapper.xml" />
 		<property name="configLocation" value="classpath:/mybatis/mybatis_config.xml"/>
 	</bean>
 	<!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.revencoft.sample.dao" />
-		<property name="annotationClass" value="com.revencoft.sample.dao.MyBatisRepository"/>
+		<property name="annotationClass" value="com.revencoft.basic_access.dao.MyBatisRepository"/>
 	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
