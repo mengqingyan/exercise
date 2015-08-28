@@ -3,6 +3,8 @@ package com.revencoft.basic_access.param;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.revencoft.basic_access.validation.QParamCheck;
+
 /**
  * 构建where条件对象，并对加入的字段值（column）进行sql注入校验
  * @author mengqingyan
@@ -15,6 +17,7 @@ public class QueryCondition {
 	public static final String SEARCH_PREFIX = "search_";
 	private static final String SEPERATOR = "_";
 	
+	@QParamCheck
 	private String column;
 	private Operation operation;
 	
