@@ -6,12 +6,14 @@ package com.revencoft.sample.controller.weather;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,12 +30,14 @@ import com.revencoft.sample.utils.JsonMapper;
  * @version
  */
 @Controller
+@CacheConfig(cacheNames="data")
 @RequestMapping("/weather")
 public class WeatherController {
 	
 //	private static final String WEATHER_URL = "http://m.weather.com.cn/atad/%s.html";
 	private static final String WEATHER_URL = "http://api.k780.com:88/?app=weather.future&weaid=%s&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
 	
+	private static final Logger log = Logger.getLogger(WeatherController.class);
 	
 	private ConnectionPreProcess preConnect;
 	
@@ -44,8 +48,11 @@ public class WeatherController {
 
 	@RequestMapping
 	@ResponseBody
+	@Cacheable
 	public Map<String, Object> getWeahter(String cityCode) {
-
+		
+		log.info("begin getting weather info ...");
+		
 		final String url = String.format(WEATHER_URL, cityCode);
 
 		try {

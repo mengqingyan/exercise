@@ -15,7 +15,7 @@
 	</resultMap>
        
 <!-- sys_menu_btn table all fields -->
-<sql id="Base_Column_List" >
+<sql id="User_Column_List" >
 	 id,login_name,name,password,salt,roles,register_date
 </sql>
    
@@ -38,7 +38,7 @@
    
 
 <!-- 插入记录 -->
-<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+<insert id="insert" parameterType="com.revencoft.sample.entity.User" useGeneratedKeys="true" keyProperty="id">
   insert into ss_user (login_name,name,password,salt,roles,register_date) 
   values(#{loginName}, #{name}, #{password}, #{salt}, #{roles}, #{registerDate})
 </insert>
@@ -46,13 +46,13 @@
  
 <!-- 根据loginName查询 -->
 <select id="findUserByLoginName"  resultMap="UserMap" parameterType="string" >
-	select <include refid="Base_Column_List" /> 
+	select * 
 	 from ss_user where login_name = #{loginName}
 </select>
 
 <!-- 根据id查询 -->
 <select id="findUserById"  resultMap="UserMap" parameterType="int">
-	select <include refid="Base_Column_List" /> 
+	select <include refid="User_Column_List" /> 
 	 from ss_user where id = #{id}
 </select>
 

@@ -6,6 +6,8 @@ package com.revencoft.sample.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.revencoft.basic_access.entity.IdEntity;
+
 /**
  * @author mengqingyan
  * @version 

@@ -3,10 +3,10 @@
  */
 package com.revencoft.sample.service.task;
 
+import com.revencoft.basic_access.param.CustomQueryParams;
+import com.revencoft.basic_access.service.BaseService;
 import com.revencoft.sample.entity.PageEntity;
 import com.revencoft.sample.entity.Task;
-import com.revencoft.sample.service.BaseService;
-import com.revencoft.sample.support.CustomQueryParams;
 
 /**
  * @author mengqingyan

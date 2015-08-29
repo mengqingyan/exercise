@@ -15,6 +15,10 @@
 		<level value="info" />
 	</logger>
 	
+	<logger name="com.revencoft.basic_access">
+		<level value="debug" />
+	</logger>
+	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
@@ -30,6 +34,10 @@
 
 	<logger name="org.springframework.web">
 		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.cache">
+		<level value="debug" />
 	</logger>
 	
 	
@@ -51,7 +59,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="INFO" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	

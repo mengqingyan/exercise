@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.ImmutableList;
+import com.revencoft.basic_access.entity.IdEntity;
 
 /**
  * @author mengqingyan

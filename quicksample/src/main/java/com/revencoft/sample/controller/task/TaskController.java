@@ -18,14 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.revencoft.basic_access.param.CustomQueryParams;
+import com.revencoft.basic_access.param.QueryCondition;
+import com.revencoft.basic_access.param.QueryCondition.Operation;
+import com.revencoft.basic_access.resolver.QueryParamCombine;
 import com.revencoft.sample.entity.PageEntity;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.entity.User;
 import com.revencoft.sample.service.task.TaskService;
 import com.revencoft.sample.shiro.ShiroDbRealm.ShiroUser;
-import com.revencoft.sample.support.CustomQueryParams;
-import com.revencoft.sample.support.QueryCondition;
-import com.revencoft.sample.support.QueryCondition.Operation;
 
 /**
  * @author mengqingyan
@@ -45,7 +46,7 @@ public class TaskController {
 	
 	@RequestMapping(value="list", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> list(@Valid CustomQueryParams qParams) {
+	public Map<String, Object> list(@QueryParamCombine CustomQueryParams qParams) {
 		
 		Map<String, Object> datas = new HashMap<String, Object>();
 		

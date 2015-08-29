@@ -9,14 +9,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.revencoft.sample.SpringTransactionTest;
+import com.revencoft.basic_access.param.CustomQueryParams;
+import com.revencoft.basic_access.param.QueryCondition;
+import com.revencoft.basic_access.param.QueryCondition.Operation;
+import com.revencoft.basic_access.test.SpringTransactionTest;
 import com.revencoft.sample.dao.account.UserDao;
 import com.revencoft.sample.dao.task.TaskDao;
 import com.revencoft.sample.entity.Task;
 import com.revencoft.sample.entity.User;
-import com.revencoft.sample.support.CustomQueryParams;
-import com.revencoft.sample.support.QueryCondition;
-import com.revencoft.sample.support.QueryCondition.Operation;
 
 /**
  * @author mengqingyan
