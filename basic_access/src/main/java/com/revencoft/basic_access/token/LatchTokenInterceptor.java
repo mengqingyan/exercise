@@ -178,8 +178,7 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 		Set<Entry<HttpSessionHolder, CountDownLatch>> entrySet = latchCache.entrySet();
 		Iterator<Entry<HttpSessionHolder, CountDownLatch>> it = entrySet.iterator();
 		while (it.hasNext()) {
-			Map.Entry<HttpSessionHolder, CountDownLatch> entry = (Map.Entry<HttpSessionHolder, CountDownLatch>) it
-					.next();
+			Map.Entry<HttpSessionHolder, CountDownLatch> entry = it.next();
 			HttpSessionHolder sessionHolder = entry.getKey();
 			if(isSessionInValid(sessionHolder.getSession())) {
 				CountDownLatch tokenLock = entry.getValue();

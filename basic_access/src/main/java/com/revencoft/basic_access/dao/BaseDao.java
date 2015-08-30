@@ -38,5 +38,10 @@ public interface BaseDao<T> {
 	 * @param params
 	 */
 	void deleteByQParams(CustomQueryParams params);
+	
+	/**
+	 * @param params
+	 */
+	void updateByQParams(CustomQueryParams params);
 
 }

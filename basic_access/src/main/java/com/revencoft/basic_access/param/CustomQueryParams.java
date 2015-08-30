@@ -29,7 +29,8 @@ public class CustomQueryParams extends DataTableQueryParams implements Controlle
 	private List<QueryCondition> qconditions;
 	
 	/**
-	 * 封装查询参数：字段--值
+	 * 封装查询参数：字段--值;<br/>
+	 * 可用于封装update的set参数
 	 */
 	@QParamCheck
 	private Map<String, String> searchParams;
@@ -92,7 +93,7 @@ public class CustomQueryParams extends DataTableQueryParams implements Controlle
 		pack();
 	}
 	
-	public void pack() {
+	private void pack() {
 		
 		if (searchParams == null || searchParams.isEmpty()) {
 			return;

@@ -56,7 +56,6 @@ public class TokenUtil {
 	 */
 	public static boolean validToken(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-//		synchronized (session) {
 			if(session == null) {
 				return false;
 			}
@@ -68,7 +67,6 @@ public class TokenUtil {
 			session.removeAttribute(sessionTokenName);
 			
 			return tokenObj.equals(getToken(request));
-//		}
 	}
 	
 	public static String getToken(HttpServletRequest request){

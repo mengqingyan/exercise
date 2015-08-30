@@ -4,6 +4,7 @@
 package com.revencoft.basic_access.utils;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,4 +28,20 @@ public abstract class CollectionUtil {
 	        }
 	        return set;
 	    }
+	 
+	 /**
+	  * 校验map不为null且不为空
+	  * @param map
+	  * @param message
+	  * @param values
+	  */
+	 public static <K, V> void checkNotEmptyMap(final Map<K, V> map, final String message, final Object... values) {
+			if (map == null) {
+	            throw new NullPointerException(String.format(message, values));
+	        }
+	        if (map.size() == 0) {
+	            throw new IllegalArgumentException(String.format(message, values));
+	        }
+		}
+		
 }

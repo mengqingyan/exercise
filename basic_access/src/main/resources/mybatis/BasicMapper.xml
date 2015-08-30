@@ -34,4 +34,14 @@
 		    limit #{iDisplayStart},#{iDisplayLength}
 		</if>
 	</sql>
+	
+	
+	<sql id="Basic_Update_Clause">
+		<set>
+			<foreach collection="_parameter.getSearchParams()" index="key" item="value" separator=",">
+				${key} = #{value}
+			</foreach>
+		</set>
+		<include refid="com.revencoft.basic_access.Basic_Where_Clause"></include>
+	</sql>
 </mapper>   

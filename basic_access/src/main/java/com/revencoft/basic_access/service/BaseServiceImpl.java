@@ -4,7 +4,9 @@
 package com.revencoft.basic_access.service;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.revencoft.basic_access.dao.BaseDao;
 import com.revencoft.basic_access.param.CustomQueryParams;
+import com.revencoft.basic_access.utils.CollectionUtil;
 
 
 /**
@@ -26,7 +29,6 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	@Transactional(readOnly=true)
 	public List<T> getEntityByQParams(CustomQueryParams params) {
-		checkQueryParams(params);
 		return getBaseDao().queryByQParams(params);
 	}
 	
@@ -35,7 +37,6 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	@Transactional(readOnly=true)
 	public int getEntityCountByQParams(CustomQueryParams params) {
-		checkQueryParams(params);
 		return getBaseDao().queryCountByQParams(params);
 	}
 
@@ -68,9 +69,16 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 		checkQueryParams(params);
 		getBaseDao().deleteByQParams(params);
 	}
+	
 
-
-
+	@Override
+	public void updateEntityByQParams(CustomQueryParams params) {
+		checkQueryParams(params);
+		CollectionUtil.checkNotEmptyMap(params.getSearchParams(), "searchParams for update can't be null!");
+		getBaseDao().updateByQParams(params);
+	}
+	
+	
 	protected abstract BaseDao<T> getBaseDao();
 
 }
