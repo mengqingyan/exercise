@@ -19,41 +19,18 @@
 	 id,login_name,name,password,salt,roles,register_date
 </sql>
    
-   
-<!-- 查询条件 -->
-<sql id="Example_Where_Clause">
-	where 1=1
-<trim  suffixOverrides="," >
-	<if test="id != null" >
-	    and id =  #{id}
-	</if>
-	<if test="loginName != null and loginName != ''" >
-	    and login_name =  #{loginName}
-	</if>
-	<if test="name != null and name != ''" >
-	    and name =  #{name}
-	</if>
-</trim>
-</sql>
-   
 
 <!-- 插入记录 -->
-<insert id="insert" parameterType="com.revencoft.sample.entity.User" useGeneratedKeys="true" keyProperty="id">
+<insert id="save" parameterType="com.revencoft.sample.entity.User" useGeneratedKeys="true" keyProperty="id">
   insert into ss_user (login_name,name,password,salt,roles,register_date) 
   values(#{loginName}, #{name}, #{password}, #{salt}, #{roles}, #{registerDate})
 </insert>
 
  
-<!-- 根据loginName查询 -->
-<select id="findUserByLoginName"  resultMap="UserMap" parameterType="string" >
+<!-- 根据QParams查询 -->
+<select id="queryByQParams"  resultMap="UserMap" parameterType="string" >
 	select * 
-	 from ss_user where login_name = #{loginName}
-</select>
-
-<!-- 根据id查询 -->
-<select id="findUserById"  resultMap="UserMap" parameterType="int">
-	select <include refid="User_Column_List" /> 
-	 from ss_user where id = #{id}
+	 from ss_user <include refid="com.revencoft.basic_access.Basic_Where_Clause"></include>
 </select>
 
 </mapper>   

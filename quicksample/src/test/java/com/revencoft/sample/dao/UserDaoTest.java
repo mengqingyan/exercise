@@ -3,10 +3,14 @@
  */
 package com.revencoft.sample.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.revencoft.basic_access.param.CustomQueryParams;
@@ -59,4 +63,25 @@ public class UserDaoTest extends SpringTransactionTest {
 		System.out.println(list2);
 	}
 	
+	@Test
+//	@Rollback(false) // 是否自动回滚
+	public void testTaskDaoUpdate() {
+		CustomQueryParams params = new CustomQueryParams();
+		QueryCondition cond = new QueryCondition("title", Operation.like, "hello");
+		params.addQueryCondition(cond);
+		Map<String, String> updateParams = new HashMap<String, String>();
+		
+		String updatedDesc = "world updated!";
+		
+		updateParams.put("description", updatedDesc);
+		params.setSearchParams(updateParams);
+		
+		taskDao.updateByQParams(params);
+		
+		List<Task> tasks = taskDao.queryByQParams(params);
+		System.out.println(tasks);
+		for (Task task : tasks) {
+			Assert.assertEquals(updatedDesc, task.getDescription());
+		}
+	}
 }

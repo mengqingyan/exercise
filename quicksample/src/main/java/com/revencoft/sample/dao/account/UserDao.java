@@ -3,6 +3,7 @@
  */
 package com.revencoft.sample.dao.account;
 
+import com.revencoft.basic_access.dao.BaseDao;
 import com.revencoft.basic_access.dao.MyBatisRepository;
 import com.revencoft.sample.entity.User;
 
@@ -12,7 +13,7 @@ import com.revencoft.sample.entity.User;
  */
 
 @MyBatisRepository
-public interface UserDao {
+public interface UserDao extends BaseDao<User>{
 
 	/**
 	 * @param loginName

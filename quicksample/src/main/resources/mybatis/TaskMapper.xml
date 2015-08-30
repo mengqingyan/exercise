@@ -53,4 +53,8 @@
 		insert into ss_task (title, description, user_id)
 		values(#{title}, #{description}, #{user.id})
 	</insert>
+	
+	<update id="updateByQParams" parameterType="com.revencoft.basic_access.param.CustomQueryParams">
+		update ss_task <include refid="com.revencoft.basic_access.Basic_Update_Clause"></include>
+	</update>
 </mapper>   
