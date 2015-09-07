@@ -56,7 +56,7 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 			isValid = TokenUtil.validToken(request);
 			if (!isValid) {
 				log.debug("token is invalid!");
-				CountDownLatch latch = this.getInvalidTokenLock(
+				CountDownLatch latch = this.getInvalidTokenLatch(
 						session, true);
 				if (latch != null) {
 					latch.await();
@@ -139,7 +139,7 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 		WebUtils.setSessionAttribute(request, SESSION_MODE_VIEW, modelAndView);
 		HttpSession session = request.getSession(false);
 		
-		if(session != null) {
+		if(session != null && !isSessionInValid(session)) {
 			CountDownLatch latch = getInvalidTokenLatch(session, false);
 			if(latch != null) {
 				latch.countDown();
@@ -200,22 +200,22 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 	}
 	
 	
-	
-	private CountDownLatch getInvalidTokenLock(HttpSession session, boolean isSessionNeedValid) {
-		if(session == null) {
-			return null;
-		}
-		HttpSessionHolder sessionHolder = new HttpSessionHolder(session);
-		if(!isSessionNeedValid) {
-			return latchCache.get(sessionHolder);
-		} else {
-			if(isSessionInValid(session)) {
-				return null;
-			} else {
-				return latchCache.get(sessionHolder);
-			}
-		}
-	}
+//	
+//	private CountDownLatch getInvalidTokenLock(HttpSession session, boolean isSessionNeedValid) {
+//		if(session == null) {
+//			return null;
+//		}
+//		HttpSessionHolder sessionHolder = new HttpSessionHolder(session);
+//		if(!isSessionNeedValid) {
+//			return latchCache.get(sessionHolder);
+//		} else {
+//			if(isSessionInValid(session)) {
+//				return null;
+//			} else {
+//				return latchCache.get(sessionHolder);
+//			}
+//		}
+//	}
 	
 	private boolean isSessionInValid(HttpSession session) {
 		if(session == null) {
