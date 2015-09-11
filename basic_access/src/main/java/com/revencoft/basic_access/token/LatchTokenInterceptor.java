@@ -20,9 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.util.WebUtils;
 
 import com.revencoft.basic_access.interceptor.RequestMethodHandlerInterceptor;
+import com.revencoft.basic_access.listener.SessionContextRefreshor;
 
 
 /**
@@ -30,7 +30,7 @@ import com.revencoft.basic_access.interceptor.RequestMethodHandlerInterceptor;
  * @author mqy
  * @version 1.2
  */
-public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
+public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor implements SessionContextRefreshor{
 	
 	private static final Logger log = Logger.getLogger(LatchTokenInterceptor.class);
 	
@@ -42,6 +42,7 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 
 	private static final String IS_SESSION_INVALILD = "is_session_invalid";
 
+
 	@Autowired
 	private ViewResolver viewResolver;
 	
@@ -50,19 +51,20 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 			HttpServletResponse response, Object handler) throws Exception {
 		boolean isValid = false;
 		HttpSession session = request.getSession(true);
-		// 以session为锁，其他用户的线程可以同时操作session
-		// 其他线程在此阻塞，当释放锁时，其他线程不会调用ProcessInvalidTokenLock处理视图
+		// 以session为锁，
+		// 其他线程在此阻塞
 		synchronized (session) {
 			isValid = TokenUtil.validToken(request);
 			if (!isValid) {
 				log.debug("token is invalid!");
+				//线程同步锁
 				CountDownLatch latch = this.getInvalidTokenLatch(
-						session, true);
+						session, false);
 				if (latch != null) {
 					latch.await();
 					processInvalidToken(request, response);
 				} else {
-					log.debug("postHandle(method) has been executed,render the view directly.");
+					log.debug("controller(method) will not be executed,render the view directly.");
 					//we must render the view again
 					processInvalidToken(request, response);
 				}
@@ -136,21 +138,38 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		
-		WebUtils.setSessionAttribute(request, SESSION_MODE_VIEW, modelAndView);
 		HttpSession session = request.getSession(false);
-		
-		if(session != null && !isSessionInValid(session)) {
-			CountDownLatch latch = getInvalidTokenLatch(session, false);
-			if(latch != null) {
-				latch.countDown();
-				log.debug("action has executed completely!");
-				//very important
-				releaseInvalidTokenLatchWithSession(session);
-			}
-		} else {
-			releaseInvalidSessionWithTokenLatch();
+		if(session != null) {
+			session.setAttribute(SESSION_MODE_VIEW, modelAndView);
 		}
-		
+		removeTokenLatch(session);
+	}
+
+	@Override
+	protected void doAfterCompletion(HttpServletRequest request,
+			HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		if(ex != null) {
+			removeTokenLatch(request.getSession());
+			throw ex;
+		}
+	}
+
+
+	/**
+	 * @param session
+	 */
+	private void removeTokenLatch(HttpSession session) {
+		if(session == null) {
+			return;
+		}
+		HttpSessionHolder sessionHolder = new HttpSessionHolder(session);
+		CountDownLatch latch = latchCache.remove(sessionHolder);
+		if(latch != null) {
+			while(latch.getCount() > 0) {
+				latch.countDown();
+			}
+		}
 	}
 
 
@@ -172,9 +191,9 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 
 
 	/**
-	 * session失效时，释放相应的ProcessInvalidTokenLock
+	 * session失效时，释放相应的CountDownLatch
 	 */
-	private void releaseInvalidSessionWithTokenLatch() {
+	public void releaseInvalidSessionWithTokenLatch() {
 		Set<Entry<HttpSessionHolder, CountDownLatch>> entrySet = latchCache.entrySet();
 		Iterator<Entry<HttpSessionHolder, CountDownLatch>> it = entrySet.iterator();
 		while (it.hasNext()) {
@@ -200,23 +219,6 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 	}
 	
 	
-//	
-//	private CountDownLatch getInvalidTokenLock(HttpSession session, boolean isSessionNeedValid) {
-//		if(session == null) {
-//			return null;
-//		}
-//		HttpSessionHolder sessionHolder = new HttpSessionHolder(session);
-//		if(!isSessionNeedValid) {
-//			return latchCache.get(sessionHolder);
-//		} else {
-//			if(isSessionInValid(session)) {
-//				return null;
-//			} else {
-//				return latchCache.get(sessionHolder);
-//			}
-//		}
-//	}
-	
 	private boolean isSessionInValid(HttpSession session) {
 		if(session == null) {
 			return true;
@@ -233,9 +235,10 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 		return true;
 	}
 	
-	public void releaseInvalidTokenLatchWithSession(HttpSession session) {
-		if(session != null)
-			latchCache.remove(new HttpSessionHolder(session));
+	
+	@Override
+	public void refresh(HttpSession session) {
+		removeTokenLatch(session);
 	}
 	
 	
@@ -286,5 +289,8 @@ public class LatchTokenInterceptor extends RequestMethodHandlerInterceptor {
 		
 		
 	}
+
+
+
 
 }
