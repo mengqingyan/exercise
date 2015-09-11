@@ -33,7 +33,7 @@ public class JDKConnection {
 		ConnectionPreProcess preConnect = new ConnectionPreProcess() {
 			
 			@Override
-			public void process(HttpURLConnection connection) throws Exception {
+			public void preProcess(HttpURLConnection connection) throws Exception {
 				connection.setReadTimeout(timeout);
 			}
 		};
@@ -45,7 +45,7 @@ public class JDKConnection {
 		HttpURLConnection connection = null;
 		try {
 			connection = (HttpURLConnection) new URL(url).openConnection();
-			preConnect.process(connection);
+			preConnect.preProcess(connection);
 			connection.connect();
 			
 			InputStream in = null;
@@ -80,7 +80,7 @@ public class JDKConnection {
 		ConnectionPreProcess preConnect = new ConnectionPreProcess() {
 			
 			@Override
-			public void process(HttpURLConnection connection) throws Exception {
+			public void preProcess(HttpURLConnection connection) throws Exception {
 				connection.setReadTimeout(timeout * 1000);
 			}
 		};
@@ -91,7 +91,7 @@ public class JDKConnection {
 		HttpURLConnection connection = null;
 		try {
 			connection = (HttpURLConnection) new URL(url).openConnection();
-			preConnect.process(connection);
+			preConnect.preProcess(connection);
 			return action.action(connection);
 		} finally {
 			connection.disconnect();
@@ -105,7 +105,7 @@ public class JDKConnection {
 		 * @param connection
 		 * @throws Exception 
 		 */
-		void process(HttpURLConnection connection) throws Exception;
+		void preProcess(HttpURLConnection connection) throws Exception;
 
 	}
 

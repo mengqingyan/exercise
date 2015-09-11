@@ -116,7 +116,7 @@ public class TestJDKConnection {
 		ConnectionPreProcess preConnect = new ConnectionPreProcess() {
 			
 			@Override
-			public void process(HttpURLConnection connection) throws Exception {
+			public void preProcess(HttpURLConnection connection) throws Exception {
 				connection.setRequestMethod("GET");
 				connection.setReadTimeout(30000);
 				connection.setConnectTimeout(30000);
