@@ -14,13 +14,15 @@
 		infrastructure -->
 
 
+	<!-- interceptor bean -->
+	<beans:bean id="tokenInterceptor" class="com.revencoft.basic_access.token.LatchTokenInterceptor">
+		<beans:property name="invalidTokenUrl" value="/error/tokenerror"/>
+	</beans:bean>
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/task/create"/>
-			<beans:bean class="com.revencoft.basic_access.token.LatchTokenInterceptor">
-				<beans:property name="invalidTokenUrl" value="/error/tokenerror"/>
-			</beans:bean>
+			<mvc:mapping path="/task/create/**"/>
+				<beans:ref bean="tokenInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
@@ -65,6 +67,7 @@
 	<beans:bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
+	
 	<cache:annotation-driven cache-manager="cacheManager" proxy-target-class="true"/>
 
 </beans:beans>

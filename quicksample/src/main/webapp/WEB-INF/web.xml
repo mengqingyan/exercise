@@ -17,6 +17,11 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
+	<!-- 将session事件委托给spring -->
+	<listener>
+		<listener-class>com.revencoft.basic_access.listener.HttpSessionEventListener</listener-class>
+	</listener>
+	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

@@ -71,13 +71,20 @@ public class TaskController {
 		return "task/taskForm";
 	}
 	
+	@RequestMapping(value="create/json", method=RequestMethod.POST)
+	@ResponseBody
+	public String toCreate(@Valid Task task) {
+		System.out.println("task: " + task);
+		return "add task success!";
+	}
+	
 	@RequestMapping(value="create", method=RequestMethod.POST)
 	public String doCreate(@Valid Task task) {
 		Long userId = getCurrentUserId();
 		User user = new User(userId);
 		task.setUser(user);
 		taskService.saveEntity(task);/*save(task)*/;
-		
+//		throw new RuntimeException("test error!");
 		return "redirect:/task";
 	}
 	

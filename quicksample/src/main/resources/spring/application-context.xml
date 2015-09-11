@@ -72,4 +72,7 @@
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
 		p:config-location="classpath:ehcache/ehcache-data.xml" />
     
+    
+    <!-- session事件监听器 -->
+	<bean class="com.revencoft.basic_access.listener.HttpSessionRefreshorApplicationListener"/>
 </beans>

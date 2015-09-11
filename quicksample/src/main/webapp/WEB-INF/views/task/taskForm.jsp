@@ -31,6 +31,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">提交</button>
+					<button type="button" class="btn btn-default" onclick="submitWithAjax();">Ajax提交</button>
 					&nbsp;
 					<button type="button" class="btn btn-default"
 						onclick="history.back();">返回</button>
@@ -43,6 +44,23 @@
 				$("#task_title").focus();
 				$("#inputForm").validate();
 			});
+			
+			function submitWithAjax() {
+				$.ajax({
+					cache: true,
+					type: "POST",
+					url: "${ctx}/task/create/json",
+					data:$('#inputForm').serialize(),// 你的formid
+					async: true,
+				    error: function(request) {
+				        alert("Connection error");
+				    },
+				    success: function(data) {
+				    	alert(data);
+				    }
+
+				});
+			}
 		</script>
 </body>
 </html>
