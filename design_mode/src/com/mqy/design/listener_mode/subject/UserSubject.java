@@ -3,6 +3,7 @@ package com.mqy.design.listener_mode.subject;
 import com.mqy.design.listener_mode.event.AddUserEvent;
 import com.mqy.design.listener_mode.event.DeleteUserEvent;
 import com.mqy.design.listener_mode.event.Event;
+import com.mqy.design.listener_mode.event.UpdateUserEvent;
 import com.mqy.design.listener_mode.publisher.EventPublisher;
 import com.mqy.design.listener_mode.publisher.EventPublisherAware;
 
@@ -27,6 +28,15 @@ public class UserSubject implements EventPublisherAware {
 		notifyListener(new DeleteUserEvent(this));
 	}
 	
+	/**
+	 * 
+	 */
+	public void updateUser() {
+		System.out.println("update User over!");
+
+		notifyListener(new UpdateUserEvent(this));
+	}
+	
 	
 	private void notifyListener(Event e) {
 		eventPublisher.publishEvent(e);
@@ -36,5 +46,7 @@ public class UserSubject implements EventPublisherAware {
 	public void setEventPublisher(EventPublisher eventPublisher) {
 		this.eventPublisher = eventPublisher;
 	}
+
+	
 
 }

@@ -1,7 +1,9 @@
 package com.mqy.design.listener_mode;
 
 import com.mqy.design.listener_mode.listener.AddUserEventListener;
+import com.mqy.design.listener_mode.listener.CommonEventListener;
 import com.mqy.design.listener_mode.listener.DeleteUserEventListener;
+import com.mqy.design.listener_mode.listener.UpdateUserEventListener;
 import com.mqy.design.listener_mode.listener.smart.SmartEventListener;
 import com.mqy.design.listener_mode.publisher.EventMuticaster;
 import com.mqy.design.listener_mode.publisher.EventPublisherAware;
@@ -23,6 +25,9 @@ public class MainTest {
 		System.out.println("=====================");
 		uS.deleteUser();
 		
+		System.out.println("=====================");
+		uS.updateUser();
+		
 	}
 
 	/**
@@ -35,12 +40,18 @@ public class MainTest {
 		EventMuticaster ePublisher = new EventMuticaster();
 		
 		/** 定义事件 */
-		SmartEventListener addUserEvent = new AddUserEventListener();
-		SmartEventListener delUserEvent = new DeleteUserEventListener();
+		SmartEventListener addUserEventListener = new AddUserEventListener();
+		SmartEventListener delUserEventListener = new DeleteUserEventListener();
+		
+		UpdateUserEventListener updateUserEventListener = new UpdateUserEventListener();
+		
+		CommonEventListener commonEventListener = new CommonEventListener();
 		
 		/** 注册事件 */
-		ePublisher.addListener(addUserEvent);
-		ePublisher.addListener(delUserEvent);
+		ePublisher.addListener(addUserEventListener);
+		ePublisher.addListener(delUserEventListener);
+		ePublisher.addListener(updateUserEventListener);
+		ePublisher.addListener(commonEventListener);
 		
 		/** 将事件广播者注入目标对象 */
 		if(obj instanceof EventPublisherAware) {
