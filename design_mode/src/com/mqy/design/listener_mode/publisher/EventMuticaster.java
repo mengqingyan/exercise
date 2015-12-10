@@ -17,7 +17,7 @@ import com.mqy.design.listener_mode.listener.smart.adaptor.GenericEventListenerA
 public class EventMuticaster implements EventPublisher, ListenerRegistrar {
 	
 	
-	public List<EventListener<?>> listeners = new ArrayList<EventListener<?>>();
+	private final List<EventListener<?>> listeners = new ArrayList<EventListener<?>>();
 
 	public EventMuticaster() {
 		
