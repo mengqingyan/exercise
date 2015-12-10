@@ -4,6 +4,7 @@ import com.mqy.design.listener_mode.listener.AddUserEventListener;
 import com.mqy.design.listener_mode.listener.DeleteUserEventListener;
 import com.mqy.design.listener_mode.listener.smart.SmartEventListener;
 import com.mqy.design.listener_mode.publisher.EventMuticaster;
+import com.mqy.design.listener_mode.publisher.EventPublisher;
 import com.mqy.design.listener_mode.publisher.EventPublisherAware;
 import com.mqy.design.listener_mode.subject.UserSubject;
 
@@ -31,6 +32,20 @@ public class MainTest {
 	 */
 	private static void postProcessObject(Object obj) {
 		
+		EventPublisher ePublisher = obtainEventPublisher();
+		
+		/** 将事件广播者注入目标对象 */
+		if(obj instanceof EventPublisherAware) {
+			EventPublisherAware ePublishAware = (EventPublisherAware) obj;
+			ePublishAware.setEventPublisher(ePublisher);
+		}
+		
+	}
+
+	/**
+	 * @return
+	 */
+	private static EventPublisher obtainEventPublisher() {
 		/** 事件广播者 */
 		EventMuticaster ePublisher = new EventMuticaster();
 		
@@ -41,13 +56,7 @@ public class MainTest {
 		/** 注册事件 */
 		ePublisher.addListener(addUserEvent);
 		ePublisher.addListener(delUserEvent);
-		
-		/** 将事件广播者注入目标对象 */
-		if(obj instanceof EventPublisherAware) {
-			EventPublisherAware ePublishAware = (EventPublisherAware) obj;
-			ePublishAware.setEventPublisher(ePublisher);
-		}
-		
+		return ePublisher;
 	}
 
 }
