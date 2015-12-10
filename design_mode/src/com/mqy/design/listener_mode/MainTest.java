@@ -4,8 +4,8 @@ import com.mqy.design.listener_mode.listener.AddUserEventListener;
 import com.mqy.design.listener_mode.listener.CommonEventListener;
 import com.mqy.design.listener_mode.listener.DeleteUserEventListener;
 import com.mqy.design.listener_mode.listener.UpdateUserEventListener;
-import com.mqy.design.listener_mode.listener.smart.SmartEventListener;
 import com.mqy.design.listener_mode.publisher.EventMuticaster;
+import com.mqy.design.listener_mode.publisher.EventPublisher;
 import com.mqy.design.listener_mode.publisher.EventPublisherAware;
 import com.mqy.design.listener_mode.subject.UserSubject;
 
@@ -36,22 +36,7 @@ public class MainTest {
 	 */
 	private static void postProcessObject(Object obj) {
 		
-		/** 事件广播者 */
-		EventMuticaster ePublisher = new EventMuticaster();
-		
-		/** 定义事件 */
-		SmartEventListener addUserEventListener = new AddUserEventListener();
-		SmartEventListener delUserEventListener = new DeleteUserEventListener();
-		
-		UpdateUserEventListener updateUserEventListener = new UpdateUserEventListener();
-		
-		CommonEventListener commonEventListener = new CommonEventListener();
-		
-		/** 注册事件 */
-		ePublisher.addListener(addUserEventListener);
-		ePublisher.addListener(delUserEventListener);
-		ePublisher.addListener(updateUserEventListener);
-		ePublisher.addListener(commonEventListener);
+		EventPublisher ePublisher = obtainEventPublisher();
 		
 		/** 将事件广播者注入目标对象 */
 		if(obj instanceof EventPublisherAware) {
@@ -59,6 +44,29 @@ public class MainTest {
 			ePublishAware.setEventPublisher(ePublisher);
 		}
 		
+	}
+
+	/**
+	 * @return
+	 */
+	private static EventPublisher obtainEventPublisher() {
+		/** 事件广播者 */
+		EventMuticaster ePublisher = new EventMuticaster();
+		
+		/** 定义事件监听器 */
+		AddUserEventListener addUserEventListener = new AddUserEventListener();
+		DeleteUserEventListener delUserEventListener = new DeleteUserEventListener();
+		/** 定义修改用户的事件监听器，该监听器编写起来更简单，可以查看源码 */
+		UpdateUserEventListener updateUserEventListener = new UpdateUserEventListener();
+		/** 监听全部事件的监听器 */
+		CommonEventListener commonEventListener = new CommonEventListener();
+		
+		/** 注册事件 */
+		ePublisher.addListener(addUserEventListener);
+		ePublisher.addListener(delUserEventListener);
+		ePublisher.addListener(updateUserEventListener);
+		ePublisher.addListener(commonEventListener);
+		return ePublisher;
 	}
 
 }

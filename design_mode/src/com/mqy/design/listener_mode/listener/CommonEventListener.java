@@ -3,6 +3,7 @@ package com.mqy.design.listener_mode.listener;
 import com.mqy.design.listener_mode.event.Event;
 
 /**
+ * 监听{@code Event}类型及其子类型的事件，即监听全部事件
  * @author mengqingyan
  * 
  */
